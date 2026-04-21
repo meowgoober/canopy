@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CanopyCompany INC.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink: #e8408a;
+      --pink-bright: #ff5ca8;
+      --pink-dim: rgba(232, 64, 138, 0.18);
+      --pink-border: rgba(232, 64, 138, 0.45);
+      --pink-border-hover: rgba(255, 92, 168, 0.8);
+      --bg: #000;
+      --s1: #0a0a0a;
+      --s2: #111;
+      --s3: #1a1a1a;
+      --s4: #222;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.1);
+      --text: #f2f2f2;
+      --muted: #555;
+      --muted2: #888;
+    }
+
+    /* ── Light mode ── */
+    body.light-mode {
+      --bg: #f5f5f5;
+      --s1: #ffffff;
+      --s2: #efefef;
+      --s3: #e8e8e8;
+      --s4: #d0d0d0;
+      --border: rgba(0,0,0,0.08);
+      --border2: rgba(0,0,0,0.14);
+      --text: #111111;
+      --muted: #999;
+      --muted2: #666;
+    }
+    body.light-mode .topbar { background: rgba(245,245,245,0.92); }
+    body.light-mode .iframe-close-btn { background: rgba(245,245,245,0.92); }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      height: 58px;
+      gap: 16px;
+    }
+
+    .topbar-logo {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .topbar-logo span { color: var(--pink); }
+
+    .topbar-links { display: flex; gap: 6px; }
+
+    .topbar-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted2);
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--s2);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      transition: all 0.15s;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .topbar-link:hover {
+      border-color: var(--pink-border);
+      color: var(--pink-bright);
+      background: var(--pink-dim);
+    }
+    .topbar-link .icon { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ── Main ── */
+    .main-content {
+      padding-top: 58px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 52px 32px 36px;
+      max-width: 860px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--pink);
+      background: var(--pink-dim);
+      border: 1px solid var(--pink-border);
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 22px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--pink-bright);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 5vw, 52px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .hero h1 span { color: var(--pink); }
+
+    .hero p {
+      color: var(--muted2);
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    /* ── App Grid ── */
+    .app-grid {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 8px 32px 60px;
+      max-width: 860px;
+      width: 100%;
+    }
+
+    .app-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.15s;
+    }
+    .app-icon:hover { transform: translateY(-4px); }
+    .app-icon:active { transform: scale(0.95); }
+
+    .app-icon-box {
+      width: 88px;
+      height: 88px;
+      border-radius: 20px;
+      background: var(--s2);
+      border: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+    .app-icon-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(232,64,138,0.12) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .app-icon:hover .app-icon-box {
+      border-color: var(--pink-border-hover);
+      box-shadow: 0 0 0 1px var(--pink-border), 0 8px 28px rgba(232,64,138,0.18);
+      background: var(--s3);
+    }
+    .app-icon:hover .app-icon-box::before { opacity: 1; }
+
+    .app-icon-box svg {
+      width: 40px;
+      height: 40px;
+      color: var(--pink-bright);
+      filter: drop-shadow(0 0 8px rgba(255,92,168,0.4));
+    }
+
+    .app-icon-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted2);
+      letter-spacing: 0.02em;
+      transition: color 0.15s;
+    }
+    .app-icon:hover .app-icon-label { color: var(--text); }
+
+    /* ── Full-screen iframe overlay ── */
+    .iframe-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: #000;
+      flex-direction: column;
+    }
+    .iframe-overlay.active { display: flex; }
+
+    .iframe-overlay iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: #000;
+    }
+
+    .iframe-loading {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      color: var(--muted2);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--border2);
+      border-top-color: var(--pink-bright);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .iframe-close-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border-radius: 10px;
+      border: 1px solid var(--pink-border);
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--pink-bright);
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+    .iframe-close-btn:hover {
+      background: var(--pink);
+      border-color: var(--pink);
+      color: #fff;
+      box-shadow: 0 6px 24px rgba(232,64,138,0.4);
+    }
+
+    /* ── Settings Overlay ── */
+    .settings-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+    .settings-overlay.open { display: flex; }
+
+    .settings-panel {
+      background: var(--s1);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 440px;
+      margin: 16px;
+      overflow: hidden;
+    }
+
+    .settings-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .settings-title { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+
+    .settings-close {
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--s2);
+      color: var(--muted2);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .settings-close:hover { border-color: var(--pink-border); color: var(--pink); background: var(--pink-dim); }
+
+    .settings-body { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+    .setting-group { display: flex; flex-direction: column; gap: 8px; }
+    .setting-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); }
+
+    .settings-select, .settings-input {
+      background: var(--s2);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      padding: 9px 12px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+    .settings-select:focus, .settings-input:focus {
+      border-color: var(--pink-border-hover);
+      box-shadow: 0 0 0 3px rgba(232,64,138,0.12);
+    }
+    .settings-input::placeholder { color: var(--muted); }
+
+    .presets-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 7px; }
+
+    .preset-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      background: var(--s2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      text-align: left;
+    }
+    .preset-btn:hover { border-color: var(--pink-border); background: var(--pink-dim); color: var(--pink-bright); }
+    .preset-btn img { width: 14px; height: 14px; border-radius: 2px; flex-shrink: 0; }
+
+    .settings-divider { height: 1px; background: var(--border); }
+
+    .apply-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--pink);
+      border: none;
+      border-radius: 9px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .apply-btn:hover { background: var(--pink-bright); }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-logo">Canopy<span>Company</span> INC.</div>
+    <div class="topbar-links">
+      <button class="topbar-link" onclick="document.getElementById('settingsOverlay').classList.add('open')">
+        <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="8" r="2.2"/>
+          <path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.05 3.05l1.06 1.06M11.89 11.89l1.06 1.06M3.05 12.95l1.06-1.06M11.89 4.11l1.06-1.06"/>
+        </svg>
+        <span>Settings</span>
+      </button>
+      <a href="https://discord.gg/a3SAvnBb6x" target="_blank" class="topbar-link">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M13.5 2.3A13 13 0 0 0 10.2 1c-.15.26-.3.6-.4.87a12 12 0 0 0-3.6 0A9.5 9.5 0 0 0 5.8 1 13 13 0 0 0 2.5 2.3C.36 5.44-.22 8.5.07 11.5a13.1 13.1 0 0 0 4 2.02c.33-.44.62-.91.87-1.4a8.4 8.4 0 0 1-1.37-.66l.33-.26a9.4 9.4 0 0 0 8.2 0l.33.26c-.44.26-.9.48-1.37.66.25.49.54.96.87 1.4a13 13 0 0 0 4-2.02c.33-3.42-.56-6.45-2.43-9.16zM5.35 9.67c-.78 0-1.42-.71-1.42-1.58s.62-1.58 1.42-1.58 1.44.71 1.42 1.58c0 .87-.62 1.58-1.42 1.58zm5.3 0c-.78 0-1.42-.71-1.42-1.58s.62-1.58 1.42-1.58 1.44.71 1.42 1.58c0 .87-.62 1.58-1.42 1.58z"/>
+        </svg>
+        <span>Discord</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main-content">
+    <div class="hero">
+      <div class="hero-eyebrow">App Launcher</div>
+      <h1>Welcome to Canopy<span>CompanyINC.</span></h1>
+      <p>Select an app below to get started.</p>
+    </div>
+
+    <div class="app-grid">
+
+      <!-- CanopyGames -->
+      <div class="app-icon" onclick="openApp('https://cdn.jsdelivr.net/gh/meowgoober/canopy@main/1.html', 'CanopyGames')">
+        <div class="app-icon-box">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="15" width="36" height="20" rx="8" ry="8"/>
+            <line x1="16" y1="22" x2="16" y2="28"/>
+            <line x1="13" y1="25" x2="19" y2="25"/>
+            <circle cx="30" cy="22" r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="34" cy="25" r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="30" cy="28" r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="26" cy="25" r="1.5" fill="currentColor" stroke="none"/>
+            <path d="M18 8 C18 8 20 11 24 11 C28 11 30 8 30 8" stroke-width="1.8" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="app-icon-label">CanopyGames</div>
+      </div>
+
+      <!-- EQGC -->
+      <div class="app-icon" onclick="openApp('https://cdn.jsdelivr.net/gh/meowgoober/canopy@main/2.html', 'EQGC')">
+        <div class="app-icon-box">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="12" width="32" height="20" rx="3" ry="3"/>
+            <line x1="14" y1="17" x2="34" y2="17" stroke-width="1.5" opacity="0.5"/>
+            <line x1="14" y1="21" x2="34" y2="21" stroke-width="1.5" opacity="0.5"/>
+            <line x1="14" y1="25" x2="26" y2="25" stroke-width="1.5" opacity="0.5"/>
+            <path d="M4 34 L8 32 H40 L44 34 C44 35.1 43.1 36 42 36 H6 C4.9 36 4 35.1 4 34 Z"/>
+            <line x1="20" y1="34" x2="28" y2="34" stroke-width="2" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="app-icon-label">EQGC</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Iframe Overlay -->
+  <div class="iframe-overlay" id="iframeOverlay">
+    <div class="iframe-loading" id="iframeLoading">
+      <div class="spinner"></div>
+      <span id="loadingLabel">Loading...</span>
+    </div>
+    <iframe id="appFrame" style="display:none;" sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-modals"></iframe>
+  </div>
+
+  <!-- Close button -->
+  <button class="iframe-close-btn" id="closeBtn" style="display:none;" onclick="closeApp()">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <line x1="3" y1="3" x2="13" y2="13"/>
+      <line x1="13" y1="3" x2="3" y2="13"/>
+    </svg>
+    Close
+  </button>
+
+  <!-- Settings Overlay -->
+  <div class="settings-overlay" id="settingsOverlay">
+    <div class="settings-panel">
+      <div class="settings-header">
+        <span class="settings-title">Settings</span>
+        <button class="settings-close" onclick="document.getElementById('settingsOverlay').classList.remove('open')">&#x2715;</button>
+      </div>
+      <div class="settings-body">
+
+        <div class="setting-group">
+          <div class="setting-label">Theme</div>
+          <select class="settings-select" id="themeSelect">
+            <option value="dark">Dark (OLED)</option>
+            <option value="light">Light</option>
+          </select>
+        </div>
+
+        <div class="settings-divider"></div>
+
+        <div class="setting-group">
+          <div class="setting-label">Tab Cloak</div>
+          <input class="settings-input" id="cloakIcon" type="text" placeholder="Icon URL (e.g. https://google.com/favicon.ico)">
+          <input class="settings-input" id="cloakTitle" type="text" placeholder="Tab title (e.g. Google)" style="margin-top:7px;">
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-label">Presets</div>
+          <div class="presets-grid">
+            <button class="preset-btn" onclick="applyPreset('Google','https://www.google.com/favicon.ico','Google')">
+              <img src="https://www.google.com/favicon.ico" alt="">Google
+            </button>
+            <button class="preset-btn" onclick="applyPreset('Bing','https://www.bing.com/sa/simg/favicon-trans-bg-blue-mg-28.ico','Bing')">
+              <img src="https://www.bing.com/sa/simg/favicon-trans-bg-blue-mg-28.ico" alt="">Bing
+            </button>
+            <button class="preset-btn" onclick="applyPreset('Home - Google Drive','https://ssl.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png','Home - Google Drive')">
+              <img src="https://ssl.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png" alt="">Google Drive
+            </button>
+            <button class="preset-btn" onclick="applyPreset('Inbox - Gmail','https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico','Inbox - Gmail')">
+              <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" alt="">Gmail
+            </button>
+          </div>
+        </div>
+
+        <button class="apply-btn" onclick="applySettings()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── App launcher ── */
+    async function openApp(url, name) {
+      const overlay = document.getElementById('iframeOverlay');
+      const frame = document.getElementById('appFrame');
+      const loading = document.getElementById('iframeLoading');
+      const loadingLabel = document.getElementById('loadingLabel');
+      const closeBtn = document.getElementById('closeBtn');
+
+      frame.style.display = 'none';
+      loading.style.display = 'flex';
+      loadingLabel.textContent = 'Loading ' + name + '...';
+      overlay.classList.add('active');
+      closeBtn.style.display = 'flex';
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const html = await res.text();
+        frame.removeAttribute('srcdoc');
+        void frame.offsetWidth;
+        frame.srcdoc = html;
+        frame.onload = () => {
+          loading.style.display = 'none';
+          frame.style.display = 'block';
+        };
+      } catch (e) {
+        loadingLabel.textContent = 'Failed to load ' + name + ': ' + e.message;
+      }
+    }
+
+    function closeApp() {
+      const overlay = document.getElementById('iframeOverlay');
+      const frame = document.getElementById('appFrame');
+      const loading = document.getElementById('iframeLoading');
+      const closeBtn = document.getElementById('closeBtn');
+      overlay.classList.remove('active');
+      closeBtn.style.display = 'none';
+      frame.style.display = 'none';
+      frame.removeAttribute('srcdoc');
+      loading.style.display = 'flex';
+    }
+
+    /* ── Settings ── */
+    function applyPreset(title, icon) {
+      document.getElementById('cloakTitle').value = title;
+      document.getElementById('cloakIcon').value = icon;
+    }
+
+    function applyTheme(theme) {
+      if (theme === 'light') document.body.classList.add('light-mode');
+      else document.body.classList.remove('light-mode');
+    }
+
+    function applyCloak(iconUrl, tabTitle) {
+      if (tabTitle) document.title = tabTitle;
+      if (iconUrl) {
+        let link = document.querySelector("link[rel~='icon']");
+        if (!link) {
+          link = document.createElement('link');
+          link.rel = 'icon';
+          document.head.appendChild(link);
+        }
+        link.href = iconUrl;
+      }
+    }
+
+    function applySettings() {
+      const theme = document.getElementById('themeSelect').value;
+      const iconUrl = document.getElementById('cloakIcon').value.trim();
+      const tabTitle = document.getElementById('cloakTitle').value.trim();
+      applyTheme(theme);
+      applyCloak(iconUrl, tabTitle);
+      localStorage.setItem('canopy_theme', theme);
+      localStorage.setItem('canopy_icon', iconUrl);
+      localStorage.setItem('canopy_title', tabTitle);
+      document.getElementById('settingsOverlay').classList.remove('open');
+    }
+
+    /* ── Restore saved settings on load ── */
+    (function restoreSettings() {
+      const theme = localStorage.getItem('canopy_theme') || 'dark';
+      const iconUrl = localStorage.getItem('canopy_icon') || '';
+      const tabTitle = localStorage.getItem('canopy_title') || '';
+      applyTheme(theme);
+      applyCloak(iconUrl, tabTitle);
+      document.getElementById('themeSelect').value = theme;
+      document.getElementById('cloakIcon').value = iconUrl;
+      document.getElementById('cloakTitle').value = tabTitle;
+    })();
+
+    /* ── Close settings by clicking backdrop ── */
+    document.getElementById('settingsOverlay').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
