@@ -466,12 +466,11 @@
   });
 
   function usePublicKey() {
-    const pub = [96, 120, 100, 84, 97, 64, 68, 103, 99, 123, 111, 51, 105, 111, 77, 64, 73, 111, 125, 100, 65, 110, 58, 120, 92, 76, 111, 114, 105, 56, 77, 82, 97, 61, 124, 88, 100, 81, 95, 100, 102, 103, 67, 61, 122, 114, 82, 92, 69, 91, 93, 81, 62, 90, 96, 82].map(c => String.fromCharCode(c ^ 11)).join('');
+    const pub = atob('Z3NrX2ZLT2xocGQ4YmRGS0Jkdm9KZTFzV0dyeWIzRllqNndSa1pUa21sSDZxeVlXTlBWWjVRZ1k=');
     document.getElementById('apiKeyInput').value = pub;
     apiKey = pub;
     document.getElementById('keySaved').style.display = 'inline';
     setStatus('Public key applied. Now share your screen.');
-    
   }
 
   function saveKey() {
